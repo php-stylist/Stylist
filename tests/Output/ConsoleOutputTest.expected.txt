@@ -1,0 +1,26 @@
+Stylist v%A% @ PHP %A%
+
+Scanning the following paths:
+ - foo
+
+.EEEE.
+
+
+1 issue found in foo/b
+    5  Error
+
+2 issues found in foo/c
+    4  Error 1
+   12  Error 2
+
+3 issues found in foo/d
+    3  Error 3
+   14  Error 1
+   29  Error 2
+
+0 issues found in foo/e
+ FAIL  Could not check further due to uncaught LogicException: Serious error during file check!
+
+
+Checked 6 files in 0.5 seconds.
+Finished with issues.

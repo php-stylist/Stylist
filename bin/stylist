@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php declare(strict_types = 1);
+
+use Composer\XdebugHandler\XdebugHandler;
+use Stylist\DI\ContainerFactory;
+use Symfony\Component\Console\Application;
+
+
+gc_disable();
+
+$autoloadPaths = [
+	__DIR__ . '/../vendor/autoload.php', // local dev repo
+	__DIR__ . '/../../../autoload.php', // installed as a dependency
+];
+
+$autoloadFound = false;
+foreach ($autoloadPaths as $autoloadPath) {
+	if (file_exists($autoloadPath)) {
+		require_once $autoloadPath;
+		$autoloadFound = true;
+		break;
+	}
+}
+
+if ( ! $autoloadFound) {
+	throw new RuntimeException('Unable to find "vendor/autoload.php"');
+}
+
+$xdebug = new XdebugHandler('stylist');
+$xdebug->check();
+unset($xdebug);
+
+$workingDirectory = getcwd();
+$command = new \Stylist\Console\CheckCommand(
+	$workingDirectory,
+	new ContainerFactory($workingDirectory)
+);
+
+$application = new Application('Stylist');
+$application->add($command);
+exit($application->run());

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<phpcs version="1.0.0">
+  <file name="foo/a" errors="0" warnings="0"/>
+  <file name="foo/b" errors="1" warnings="0">
+    <error line="5" source="Stylist\Tests\DummyCheck" severity="5">Error</error>
+  </file>
+  <file name="foo/c" errors="2" warnings="0">
+    <error line="4" source="Stylist\Tests\DummyCheck" severity="5">Error 1</error>
+    <error line="12" source="Stylist\Tests\DummyCheck" severity="5">Error 2</error>
+  </file>
+  <file name="foo/d" errors="3" warnings="0">
+    <error line="3" source="Stylist\Tests\DummyCheck" severity="5">Error 3</error>
+    <error line="14" source="Stylist\Tests\DummyCheck" severity="5">Error 1</error>
+    <error line="29" source="Stylist\Tests\DummyCheck" severity="5">Error 2</error>
+  </file>
+  <file name="foo/e" errors="1" warnings="0">
+    <error line="0" source="LogicException" severity="5">Could not check further due to uncaught LogicException: Serious error during file check!</error>
+  </file>
+  <file name="foo/f" errors="0" warnings="0"/>
+</phpcs>

@@ -1,0 +1,5 @@
+.idea/
+temp/
+vendor/
+composer.lock
+coverage.xml
