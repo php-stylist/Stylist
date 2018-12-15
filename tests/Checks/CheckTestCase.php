@@ -9,6 +9,7 @@ use Stylist\Code\CodeParser;
 use Stylist\Code\CodeTokenizer;
 use Stylist\File;
 use Stylist\FileFactory;
+use Stylist\IgnoredIssues\IgnoredIssues;
 use Tester\Assert;
 use Tester\TestCase;
 
@@ -37,7 +38,8 @@ abstract class CheckTestCase extends TestCase
 
 		$this->fileFactory = new FileFactory(
 			new CodeTokenizer(),
-			new CodeParser($phpParser)
+			new CodeParser($phpParser),
+			new IgnoredIssues([])
 		);
 	}
 

@@ -9,6 +9,7 @@ use Stylist\Code\CodeParser;
 use Stylist\Code\CodeTokenizer;
 use Stylist\File;
 use Stylist\FileFactory;
+use Stylist\IgnoredIssues\IgnoredIssues;
 use Stylist\Output\OutputInterface;
 use Stylist\Stylist;
 use Tester\Assert;
@@ -72,7 +73,7 @@ final class StylistTest extends TestCase
 
 		$checks = [new DummyCheck()];
 		$parser = new Php7(new Emulative());
-		$fileFactory = new FileFactory(new CodeTokenizer(), new CodeParser($parser));
+		$fileFactory = new FileFactory(new CodeTokenizer(), new CodeParser($parser), new IgnoredIssues([]));
 
 		$stylist = new Stylist($checks, $output, $fileFactory);
 		$result = $stylist

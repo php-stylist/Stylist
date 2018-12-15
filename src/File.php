@@ -4,6 +4,9 @@ namespace Stylist;
 
 use PhpParser\Node;
 use Stylist\Checks\CheckInterface;
+use Stylist\IgnoredIssues\IgnoredIssue;
+use Stylist\IgnoredIssues\IgnoredIssues;
+use Stylist\IgnoredIssues\UnmatchedIgnoredIssueCheck;
 use Stylist\Tokenista\Tokens;
 
 
@@ -25,6 +28,9 @@ final class File
 	/** @var \Throwable|null */
 	private $checkError;
 
+	/** @var IgnoredIssues */
+	private $ignoredIssues;
+
 
 	/**
 	 * @param Node[] $statements
@@ -32,12 +38,14 @@ final class File
 	public function __construct(
 		\SplFileInfo $fileInfo,
 		Tokens $tokens,
-		array $statements
+		array $statements,
+		IgnoredIssues $ignoredIssues
 	)
 	{
 		$this->fileInfo = $fileInfo;
 		$this->tokens = $tokens;
 		$this->statements = $statements;
+		$this->ignoredIssues = $ignoredIssues;
 	}
 
 
@@ -68,7 +76,10 @@ final class File
 		int $line
 	): void
 	{
-		$this->issues[] = new Issue($this, $check, $message, $line);
+		$issue = new Issue($this, $check, $message, $line);
+		if ( ! $this->ignoredIssues->isIgnored($issue)) {
+			$this->issues[] = $issue;
+		}
 	}
 
 
@@ -77,6 +88,21 @@ final class File
 		// after checking, AST is no longer needed
 		// this saves a tremendous amount of memory
 		unset($this->statements);
+
+		/** @var IgnoredIssue $ignoredIssue */
+		foreach ($this->ignoredIssues as $ignoredIssue) {
+			if ( ! $ignoredIssue->didMatch()) {
+				$this->addIssue(
+					new UnmatchedIgnoredIssueCheck(),
+					\sprintf(
+						'%s was expected to report an issue that is configured as ignored, but it did not report any. '
+						. 'Remove the issue from the \'ignoredIssues\' configuration if it no longer persists.',
+						$ignoredIssue->getCheckName()
+					),
+					$ignoredIssue->getLine()
+				);
+			}
+		}
 	}
 
 

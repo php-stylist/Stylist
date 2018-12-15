@@ -5,6 +5,7 @@ namespace Stylist\Tests\Output;
 use Mockery\MockInterface;
 use Stylist\CheckResult;
 use Stylist\File;
+use Stylist\IgnoredIssues\IgnoredIssues;
 use Stylist\Output\OutputChain;
 use Stylist\Output\OutputInterface;
 use Stylist\Tokenista\Tokens;
@@ -31,7 +32,7 @@ final class OutputChainTest extends TestCase
 		$output->addOutput($output2);
 
 		$output->initialize(['foo']);
-		$output->checkedFile(new File(new \SplFileInfo(__FILE__), Tokens::from('<?php'), []));
+		$output->checkedFile(new File(new \SplFileInfo(__FILE__), Tokens::from('<?php'), [], new IgnoredIssues([])));
 		$output->finish(new CheckResult(true, [], 0.42));
 
 		Environment::$checkAssertions = false;

@@ -34,6 +34,7 @@ final class ContainerFactory
 			'extensions' => ExtensionsExtension::class,
 			'stylist' => StylistExtension::class,
 			'checks' => ChecksExtension::class,
+			'ignoredIssues' => IgnoredIssuesExtension::class,
 		];
 
 		$configurator->setDebugMode(true);

@@ -4,6 +4,7 @@ namespace Stylist;
 
 use Stylist\Code\CodeParser;
 use Stylist\Code\CodeTokenizer;
+use Stylist\IgnoredIssues\IgnoredIssues;
 
 
 final class FileFactory
@@ -15,14 +16,19 @@ final class FileFactory
 	/** @var CodeParser */
 	private $codeParser;
 
+	/** @var IgnoredIssues */
+	private $ignoredIssues;
+
 
 	public function __construct(
 		CodeTokenizer $codeTokenizer,
-		CodeParser $codeParser
+		CodeParser $codeParser,
+		IgnoredIssues $ignoredIssues
 	)
 	{
 		$this->codeTokenizer = $codeTokenizer;
 		$this->codeParser = $codeParser;
+		$this->ignoredIssues = $ignoredIssues;
 	}
 
 
@@ -43,7 +49,8 @@ final class FileFactory
 		return new File(
 			$fileInfo,
 			$tokens,
-			$statements
+			$statements,
+			$this->ignoredIssues->forFile($fileName)
 		);
 	}
 

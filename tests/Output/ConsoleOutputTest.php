@@ -4,6 +4,7 @@ namespace Stylist\Tests\Output;
 
 use Stylist\CheckResult;
 use Stylist\File;
+use Stylist\IgnoredIssues\IgnoredIssues;
 use Stylist\Output\ConsoleOutput;
 use Stylist\Tests\DummyCheck;
 use Stylist\Tokenista\Tokens;
@@ -34,29 +35,29 @@ final class ConsoleOutputTest extends TestCase
 		$files = [];
 		$tokens = Tokens::from('<?php');
 
-		$files[] = $file1 = new File(new \SplFileInfo('/working/directory/foo/a'), $tokens, []);
+		$files[] = $file1 = new File(new \SplFileInfo('/working/directory/foo/a'), $tokens, [], new IgnoredIssues([]));
 		$console->checkedFile($file1);
 
-		$files[] = $file2 = new File(new \SplFileInfo('/working/directory/foo/b'), $tokens, []);
+		$files[] = $file2 = new File(new \SplFileInfo('/working/directory/foo/b'), $tokens, [], new IgnoredIssues([]));
 		$file2->addIssue(new DummyCheck(), 'Error', 5);
 		$console->checkedFile($file2);
 
-		$files[] = $file3 = new File(new \SplFileInfo('/working/directory/foo/c'), $tokens, []);
+		$files[] = $file3 = new File(new \SplFileInfo('/working/directory/foo/c'), $tokens, [], new IgnoredIssues([]));
 		$file3->addIssue(new DummyCheck(), 'Error 1', 4);
 		$file3->addIssue(new DummyCheck(), 'Error 2', 12);
 		$console->checkedFile($file3);
 
-		$files[] = $file4 = new File(new \SplFileInfo('/working/directory/foo/d'), $tokens, []);
+		$files[] = $file4 = new File(new \SplFileInfo('/working/directory/foo/d'), $tokens, [], new IgnoredIssues([]));
 		$file4->addIssue(new DummyCheck(), 'Error 1', 14);
 		$file4->addIssue(new DummyCheck(), 'Error 2', 29);
 		$file4->addIssue(new DummyCheck(), 'Error 3', 3);
 		$console->checkedFile($file4);
 
-		$files[] = $file5 = new File(new \SplFileInfo('/working/directory/foo/e'), $tokens, []);
+		$files[] = $file5 = new File(new \SplFileInfo('/working/directory/foo/e'), $tokens, [], new IgnoredIssues([]));
 		$file5->setCheckError(new \LogicException('Serious error during file check!'));
 		$console->checkedFile($file5);
 
-		$files[] = $file6 = new File(new \SplFileInfo('/working/directory/foo/f'), $tokens, []);
+		$files[] = $file6 = new File(new \SplFileInfo('/working/directory/foo/f'), $tokens, [], new IgnoredIssues([]));
 		$console->checkedFile($file6);
 
 		$result = new CheckResult(false, $files, 0.5);
