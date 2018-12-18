@@ -5,6 +5,7 @@ namespace Stylist\Output;
 use PackageVersions\Versions;
 use Stylist\CheckResult;
 use Stylist\File;
+use Stylist\Issue;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Output\OutputInterface as SymfonyOutput;
 use Webmozart\PathUtil\Path;
@@ -38,7 +39,7 @@ final class ConsoleOutput implements OutputInterface
 		$formatter->setStyle('err', new OutputFormatterStyle('white', 'red', ['bold']));
 		$formatter->setStyle('mild-err', new OutputFormatterStyle('red', null, ['bold']));
 		$formatter->setStyle('warn', new OutputFormatterStyle('yellow', null, ['bold']));
-		$formatter->setStyle('notice', new OutputFormatterStyle('cyan', null, ['bold']));
+		$formatter->setStyle('note', new OutputFormatterStyle('cyan', null, ['bold']));
 	}
 
 
@@ -116,8 +117,9 @@ final class ConsoleOutput implements OutputInterface
 
 		foreach ($file->getIssues() as $issue) {
 			$this->console->writeln(\sprintf(
-				' <err>% 4d</err>  %s',
+				' <err>% 4d</err>  %s%s',
 				$issue->getLine(),
+				$this->getFixedStatus($issue),
 				$issue->getMessage()
 			));
 		}
@@ -126,13 +128,40 @@ final class ConsoleOutput implements OutputInterface
 			$checkError = $file->getCheckError();
 			\assert($checkError !== null);
 			$this->console->writeln(\sprintf(
-				' <err>FAIL</err>  Could not check further due to uncaught %s: %s',
+				' <err>ERROR</err>    Could not check further due to uncaught %s: %s',
 				\get_class($checkError),
 				$checkError->getMessage()
 			));
 		}
 
+		$notes = $file->getNotes();
+		if (\count($notes) > 0) {
+			$this->console->writeln('');
+			foreach ($notes as $note) {
+				$this->console->writeln(\sprintf(
+					'    -     <note>%s</note>',
+					$note
+				));
+			}
+		}
+
 		$this->console->writeln('');
+	}
+
+
+	private function getFixedStatus(Issue $issue): string
+	{
+		if ( ! $issue->canBeFixed()) {
+			return '   ';
+		}
+
+		$fix = $issue->getFix();
+		\assert($fix !== null);
+		return \sprintf(
+			'<%s>%s</>  ',
+			$fix->isFixed() ? 'mild-success' : 'mild-err',
+			$fix->isFixed() ? '√' : 'x'
+		);
 	}
 
 }

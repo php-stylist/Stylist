@@ -39,6 +39,7 @@ final class CheckCommandTest extends TestCase
 		$stylistMock = $this->mockStylist(
 			['*.php', '*.phpt'],
 			[''],
+			false,
 			[Path::canonicalize(__DIR__ . '/../dummy')],
 			true
 		);
@@ -64,6 +65,7 @@ final class CheckCommandTest extends TestCase
 		$stylistMock = $this->mockStylist(
 			['*.php', '*.phpt'],
 			[''],
+			false,
 			[Path::canonicalize(__DIR__ . '/../dummy')],
 			false
 		);
@@ -89,6 +91,7 @@ final class CheckCommandTest extends TestCase
 		$stylistMock = $this->mockStylist(
 			['*.php', '*.phpt'],
 			[''],
+			false,
 			[Path::canonicalize(__DIR__ . '/../dummy')],
 			true
 		);
@@ -113,6 +116,7 @@ final class CheckCommandTest extends TestCase
 		$stylistMock = $this->mockStylist(
 			['*.php', '*.phpt'],
 			[''],
+			false,
 			[Path::canonicalize(__DIR__ . '/../dummy')],
 			true
 		);
@@ -140,6 +144,34 @@ final class CheckCommandTest extends TestCase
 		$stylistMock = $this->mockStylist(
 			['*.phps', '*.inc'],
 			['*.php'],
+			false,
+			[Path::canonicalize(__DIR__ . '/../dummy')],
+			true
+		);
+
+		$command = $this->createCommand(
+			__DIR__,
+			Path::canonicalize(__DIR__ . '/../stylist.neon'),
+			null,
+			$stylistMock
+		);
+
+		$this->runCommand($command, $input, 0);
+	}
+
+
+	public function testOnlyCheck(): void
+	{
+		$input = [
+			'--config' => __DIR__ . '/../stylist.neon',
+			'--only-check' => true,
+			'paths' => [__DIR__ . '/../dummy'],
+		];
+
+		$stylistMock = $this->mockStylist(
+			['*.php', '*.phpt'],
+			[''],
+			true,
 			[Path::canonicalize(__DIR__ . '/../dummy')],
 			true
 		);
@@ -166,6 +198,7 @@ final class CheckCommandTest extends TestCase
 		$stylistMock = $this->mockStylist(
 			['*.php', '*.phpt'],
 			[''],
+			false,
 			[Path::canonicalize(__DIR__ . '/../dummy')],
 			true
 		);
@@ -184,6 +217,7 @@ final class CheckCommandTest extends TestCase
 	private function mockStylist(
 		array $expectedAccepted,
 		array $expectedExcluded,
+		bool $expectedOnlyCheck,
 		array $expectedPaths,
 		bool $success
 	): Stylist
@@ -191,6 +225,7 @@ final class CheckCommandTest extends TestCase
 		$stylistMock = \Mockery::mock(Stylist::class);
 		$stylistMock->shouldReceive('accept')->with($expectedAccepted)->once()->andReturnSelf();
 		$stylistMock->shouldReceive('exclude')->with($expectedExcluded)->once()->andReturnSelf();
+		$stylistMock->shouldReceive('onlyCheck')->with($expectedOnlyCheck)->once()->andReturnSelf();
 		$stylistMock->shouldReceive('check')
 			->once()
 			->with($expectedPaths)

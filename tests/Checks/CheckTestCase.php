@@ -9,6 +9,7 @@ use Stylist\Code\CodeParser;
 use Stylist\Code\CodeTokenizer;
 use Stylist\File;
 use Stylist\FileFactory;
+use Stylist\Fixing\ChangeSet;
 use Stylist\IgnoredIssues\IgnoredIssues;
 use Tester\Assert;
 use Tester\TestCase;
@@ -61,6 +62,29 @@ abstract class CheckTestCase extends TestCase
 			Assert::same($expectedLine, $issue->getLine());
 			Assert::same($expectedMessage, $issue->getMessage());
 		}
+	}
+
+
+	protected function assertFixed(CheckInterface $check, string $fileName, string $expectedFile): void
+	{
+		$file = $this->checkFile($check, $fileName);
+		$changeSet = new ChangeSet();
+
+		foreach ($file->getIssues() as $issue) {
+			if ($issue->canBeFixed()) {
+				$fix = $issue->getFix();
+				\assert($fix !== null);
+
+				$fix->apply($changeSet);
+			}
+		}
+
+		$tokens = $file->getTokens();
+		$newTokens = $changeSet->apply($tokens);
+		Assert::same(
+			\file_get_contents($expectedFile),
+			$newTokens->assemble()
+		);
 	}
 
 

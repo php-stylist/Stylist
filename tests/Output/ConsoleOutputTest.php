@@ -4,6 +4,7 @@ namespace Stylist\Tests\Output;
 
 use Stylist\CheckResult;
 use Stylist\File;
+use Stylist\Fixing\ChangeSet;
 use Stylist\IgnoredIssues\IgnoredIssues;
 use Stylist\Output\ConsoleOutput;
 use Stylist\Tests\DummyCheck;
@@ -49,8 +50,10 @@ final class ConsoleOutputTest extends TestCase
 
 		$files[] = $file4 = new File(new \SplFileInfo('/working/directory/foo/d'), $tokens, [], new IgnoredIssues([]));
 		$file4->addIssue(new DummyCheck(), 'Error 1', 14);
-		$file4->addIssue(new DummyCheck(), 'Error 2', 29);
-		$file4->addIssue(new DummyCheck(), 'Error 3', 3);
+		$file4->addIssue(new DummyCheck(), 'Error 2', 29, function () {});
+		$file4->addIssue(new DummyCheck(), 'Error 3', 3, function () {});
+		$file4->getIssues()[0]->getFix()->apply(new ChangeSet());
+		$file4->addNote('Some of the fixes could not be applied because of conflicting changes.');
 		$console->checkedFile($file4);
 
 		$files[] = $file5 = new File(new \SplFileInfo('/working/directory/foo/e'), $tokens, [], new IgnoredIssues([]));

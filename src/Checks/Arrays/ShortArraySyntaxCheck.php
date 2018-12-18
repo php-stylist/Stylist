@@ -7,7 +7,8 @@ use PhpParser\NodeVisitor;
 use Stylist\Checks\AbstractCheck;
 use Stylist\Checks\VisitorFactory;
 use Stylist\File;
-use Stylist\Tokenista\Token;
+use Stylist\Fixing\ChangeSet;
+use Stylist\Tokenista\Query;
 
 
 final class ShortArraySyntaxCheck extends AbstractCheck
@@ -17,15 +18,22 @@ final class ShortArraySyntaxCheck extends AbstractCheck
 	{
 		return VisitorFactory::createSimpleVisitor(function (Node $node) use ($file): void {
 			if ($node instanceof Node\Expr\Array_) {
-				$firstTokenIndex = $node->getAttribute('startTokenPos');
-				$firstToken = $file->getTokens()[$firstTokenIndex];
-				\assert($firstToken instanceof Token);
+				$firstTokenIndex = (int) $node->getAttribute('startTokenPos');
+				$expectation = $file->getTokens()->expect($firstTokenIndex);
+				$arrayKeyword = $expectation->expect((new Query())->typeIs(\T_ARRAY));
+				$parentheses = $expectation->section((new Query())->valueIs('('), (new Query())->valueIs(')'));
 
-				if ($firstToken->getType() === \T_ARRAY) {
+				if ($expectation->met()) {
+					\assert($arrayKeyword !== null && $parentheses !== null);
 					$file->addIssue(
 						$this,
 						'Short array syntax must be used, array() found.',
-						$firstToken->getLine()
+						$arrayKeyword->getLine(),
+						static function (ChangeSet $changeSet) use ($arrayKeyword, $parentheses): void {
+							$changeSet->removeToken($arrayKeyword);
+							$changeSet->replaceToken($parentheses->getFirst(), '[');
+							$changeSet->replaceToken($parentheses->getLast(), ']');
+						}
 					);
 				}
 			}

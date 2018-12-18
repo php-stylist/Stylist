@@ -4,6 +4,8 @@ namespace Stylist;
 
 use Nette\Utils\Finder;
 use Stylist\Checks\CheckInterface;
+use Stylist\Fixing\CannotWriteFileException;
+use Stylist\Fixing\FileFixer;
 use Stylist\Output\OutputInterface;
 
 
@@ -13,11 +15,17 @@ final class Stylist
 	/** @var CheckInterface[] */
 	private $checks;
 
+	/** @var bool */
+	private $onlyCheck = false;
+
 	/** @var OutputInterface */
 	private $output;
 
 	/** @var FileFactory */
 	private $fileFactory;
+
+	/** @var FileFixer */
+	private $fileFixer;
 
 	/** @var string[] */
 	private $accepted = [];
@@ -35,12 +43,14 @@ final class Stylist
 	public function __construct(
 		array $checks,
 		OutputInterface $output,
-		FileFactory $fileFactory
+		FileFactory $fileFactory,
+		FileFixer $fileFixer
 	)
 	{
 		$this->checks = $checks;
 		$this->output = $output;
 		$this->fileFactory = $fileFactory;
+		$this->fileFixer = $fileFixer;
 	}
 
 
@@ -54,6 +64,13 @@ final class Stylist
 	public function exclude(array $excluded): self
 	{
 		$this->excluded = $excluded;
+		return $this;
+	}
+
+
+	public function onlyCheck(bool $onlyCheck = true): self
+	{
+		$this->onlyCheck = $onlyCheck;
 		return $this;
 	}
 
@@ -125,6 +142,7 @@ final class Stylist
 				$check->check($file);
 			}
 
+			$this->fixFile($file);
 			$file->finishedCheck();
 
 		} catch (\Throwable $error) {
@@ -133,6 +151,27 @@ final class Stylist
 
 		\restore_error_handler();
 		return $file->isOk();
+	}
+
+
+	private function fixFile(File $file): void
+	{
+		if ($this->onlyCheck) {
+			return;
+		}
+
+		try {
+			$fixedAll = $this->fileFixer->fixIssues($file);
+			if ( ! $fixedAll) {
+				$file->addNote(
+					'Some of the fixes could not be applied because of conflicting changes. '
+					. 'Please run Stylist again to fix them.'
+				);
+			}
+
+		} catch (CannotWriteFileException $e) {
+			$file->addNote('Could not write the file after applying fixes; please make sure that it is writable.');
+		}
 	}
 
 }

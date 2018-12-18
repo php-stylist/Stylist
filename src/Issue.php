@@ -3,6 +3,7 @@
 namespace Stylist;
 
 use Stylist\Checks\CheckInterface;
+use Stylist\Fixing\IssueFix;
 
 
 final class Issue
@@ -20,18 +21,26 @@ final class Issue
 	/** @var int */
 	private $line;
 
+	/** @var ?IssueFix */
+	private $fix;
+
 
 	public function __construct(
 		File $file,
 		CheckInterface $check,
 		string $message,
-		int $line
+		int $line,
+		?callable $fixer = null
 	)
 	{
 		$this->file = $file;
 		$this->check = $check;
 		$this->message = $message;
 		$this->line = $line;
+
+		if ($fixer !== null) {
+			$this->fix = new IssueFix($fixer);
+		}
 	}
 
 
@@ -56,6 +65,18 @@ final class Issue
 	public function getLine(): int
 	{
 		return $this->line;
+	}
+
+
+	public function canBeFixed(): bool
+	{
+		return $this->fix !== null;
+	}
+
+
+	public function getFix(): ?IssueFix
+	{
+		return $this->fix;
 	}
 
 }

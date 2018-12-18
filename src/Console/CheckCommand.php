@@ -23,6 +23,7 @@ final class CheckCommand extends Command
 	private const OPTION_EXCLUDE = 'exclude';
 	private const OPTION_OUTPUT = 'output';
 	private const OPTION_TEMP_DIRECTORY = 'temp';
+	private const OPTION_ONLY_CHECK = 'only-check';
 	private const ARGUMENT_PATHS = 'paths';
 
 	/** @var string */
@@ -52,6 +53,7 @@ final class CheckCommand extends Command
 			->addOption(self::OPTION_EXCLUDE, 'e', InputOption::VALUE_REQUIRED, 'Excluded files mask', '')
 			->addOption(self::OPTION_OUTPUT, 'o', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Output format and optionally file, e.g. --o xml or -o xml=result.xml', ['console'])
 			->addOption(self::OPTION_TEMP_DIRECTORY, null, InputOption::VALUE_REQUIRED, 'Temporary directory')
+			->addOption(self::OPTION_ONLY_CHECK, null, InputOption::VALUE_NONE, 'Turns off automatic fixing of reported issues')
 			->addArgument(self::ARGUMENT_PATHS, InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Paths to check');
 	}
 
@@ -149,6 +151,8 @@ final class CheckCommand extends Command
 		\assert(\is_string($excluded));
 		$excluded = \array_map('trim', \explode(',', $excluded));
 
+		$onlyCheck = (bool) $input->getOption(self::OPTION_ONLY_CHECK);
+
 		/** @var string[] $pathsOption */
 		$pathsOption = $input->getArgument(self::ARGUMENT_PATHS);
 		$absolutePaths = \array_map(function (string $path): string {
@@ -161,6 +165,7 @@ final class CheckCommand extends Command
 		$result = $stylist
 			->accept($accepted)
 			->exclude($excluded)
+			->onlyCheck($onlyCheck)
 			->check($absolutePaths);
 
 		\restore_error_handler();

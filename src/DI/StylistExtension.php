@@ -10,6 +10,7 @@ use PhpParser\ParserFactory;
 use Stylist\Code\CodeParser;
 use Stylist\Code\CodeTokenizer;
 use Stylist\FileFactory;
+use Stylist\Fixing\FileFixer;
 use Stylist\Output\OutputInterface;
 use Stylist\Stylist;
 
@@ -51,6 +52,9 @@ final class StylistExtension extends CompilerExtension
 
 		$containerBuilder->addDefinition($this->prefix('code.tokenizer'))
 			->setFactory(CodeTokenizer::class);
+
+		$containerBuilder->addDefinition($this->prefix('fixing.fileFixer'))
+			->setFactory(FileFixer::class);
 
 		$containerBuilder->addDefinition($this->prefix('fileFactory'))
 			->setFactory(FileFactory::class);

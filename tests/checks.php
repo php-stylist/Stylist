@@ -4,6 +4,7 @@ namespace Stylist\Tests;
 
 use Stylist\Checks\CheckInterface;
 use Stylist\File;
+use Stylist\Fixing\ChangeSet;
 use Stylist\Tokenista\Query;
 
 
@@ -21,7 +22,8 @@ final class DummyCheck implements CheckInterface
 					$file->addIssue(
 						$this,
 						'Error',
-						$token->getLine()
+						$token->getLine(),
+						static function (ChangeSet $changeSet): void {}
 					);
 					return;
 

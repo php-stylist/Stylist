@@ -26,6 +26,16 @@ final class ShortArraySyntaxCheckTest extends CheckTestCase
 		);
 	}
 
+
+	public function testFix(): void
+	{
+		$this->assertFixed(
+			new ShortArraySyntaxCheck(),
+			__DIR__ . '/ShortArraySyntaxCheckTest/fix.source.phps',
+			__DIR__ . '/ShortArraySyntaxCheckTest/fix.expected.phps'
+		);
+	}
+
 }
 
 

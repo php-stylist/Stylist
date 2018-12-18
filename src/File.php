@@ -25,6 +25,9 @@ final class File
 	/** @var Issue[] */
 	private $issues = [];
 
+	/** @var string[] */
+	private $notes = [];
+
 	/** @var \Throwable|null */
 	private $checkError;
 
@@ -73,13 +76,20 @@ final class File
 	public function addIssue(
 		CheckInterface $check,
 		string $message,
-		int $line
+		int $line,
+		?callable $fixer = null
 	): void
 	{
-		$issue = new Issue($this, $check, $message, $line);
+		$issue = new Issue($this, $check, $message, $line, $fixer);
 		if ( ! $this->ignoredIssues->isIgnored($issue)) {
 			$this->issues[] = $issue;
 		}
+	}
+
+
+	public function addNote(string $note): void
+	{
+		$this->notes[] = $note;
 	}
 
 
@@ -130,6 +140,15 @@ final class File
 		});
 
 		return $issues;
+	}
+
+
+	/**
+	 * @return string[]
+	 */
+	public function getNotes(): array
+	{
+		return $this->notes;
 	}
 
 
