@@ -6,8 +6,6 @@ use Stylist\DI\ContainerFactory;
 use Symfony\Component\Console\Application;
 
 
-gc_disable();
-
 $autoloadPaths = [
 	__DIR__ . '/../vendor/autoload.php', // local dev repo
 	__DIR__ . '/../../../autoload.php', // installed as a dependency
