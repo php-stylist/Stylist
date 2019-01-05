@@ -2,6 +2,8 @@
 <?php declare(strict_types = 1);
 
 use Composer\XdebugHandler\XdebugHandler;
+use Jean85\PrettyVersions;
+use Stylist\Console\CheckCommand;
 use Stylist\DI\ContainerFactory;
 use Symfony\Component\Console\Application;
 
@@ -29,11 +31,12 @@ $xdebug->check();
 unset($xdebug);
 
 $workingDirectory = getcwd();
-$command = new \Stylist\Console\CheckCommand(
+$command = new CheckCommand(
 	$workingDirectory,
 	new ContainerFactory($workingDirectory)
 );
 
-$application = new Application('Stylist');
+$version = PrettyVersions::getVersion('stylist/stylist')->getPrettyVersion();
+$application = new Application('Stylist', $version);
 $application->add($command);
 exit($application->run());

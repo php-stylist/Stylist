@@ -1,4 +1,4 @@
-Stylist v%A% @ PHP %A%
+Stylist %A% @ PHP %A%
 
 Scanning the following paths:
  - foo

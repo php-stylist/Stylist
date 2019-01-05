@@ -2,7 +2,7 @@
 
 namespace Stylist\Output;
 
-use PackageVersions\Versions;
+use Jean85\PrettyVersions;
 use Stylist\CheckResult;
 use Stylist\File;
 use Stylist\Issue;
@@ -45,9 +45,10 @@ final class ConsoleOutput implements OutputInterface
 
 	public function initialize(array $paths): void
 	{
+		$version = PrettyVersions::getVersion('stylist/stylist')->getPrettyVersion();
 		$this->console->writeln(\sprintf(
-			'Stylist v%s @ PHP %s%s',
-			Versions::getVersion('stylist/stylist'),
+			'Stylist %s @ PHP %s%s',
+			$version,
 			\PHP_VERSION,
 			\PHP_EOL
 		));
