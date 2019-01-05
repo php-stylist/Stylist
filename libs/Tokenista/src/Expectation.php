@@ -29,7 +29,7 @@ final class Expectation
 	public function expect(Query $query): ?Token
 	{
 		$token = $this->tokens[$this->index];
-		if ($query->matches($token)) {
+		if ($token !== null && $query->matches($token)) {
 			$this->index++;
 			return $token;
 		}
@@ -42,7 +42,7 @@ final class Expectation
 	public function maybe(Query $query): ?Token
 	{
 		$token = $this->tokens[$this->index];
-		if ($query->matches($token)) {
+		if ($token !== null && $query->matches($token)) {
 			$this->index++;
 			return $token;
 		}

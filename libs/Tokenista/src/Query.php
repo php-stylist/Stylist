@@ -8,7 +8,7 @@ use Stylist\Arrays\Arrays;
 final class Query
 {
 
-	/** @var \Closure[] */
+	/** @var callable[] */
 	private $matchers = [];
 
 
