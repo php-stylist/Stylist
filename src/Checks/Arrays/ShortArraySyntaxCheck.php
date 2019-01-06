@@ -5,7 +5,7 @@ namespace Stylist\Checks\Arrays;
 use PhpParser\Node;
 use PhpParser\NodeVisitor;
 use Stylist\Checks\AbstractCheck;
-use Stylist\Checks\VisitorFactory;
+use Stylist\Checks\CallableVisitor;
 use Stylist\File;
 use Stylist\Fixing\ChangeSet;
 use Stylist\Tokenista\Query;
@@ -16,7 +16,7 @@ final class ShortArraySyntaxCheck extends AbstractCheck
 
 	protected function createVisitor(File $file): NodeVisitor
 	{
-		return VisitorFactory::createSimpleVisitor(function (Node $node) use ($file): void {
+		return new CallableVisitor(function (Node $node) use ($file) {
 			if ($node instanceof Node\Expr\Array_) {
 				$firstTokenIndex = (int) $node->getAttribute('startTokenPos');
 				$expectation = $file->getTokens()->expect($firstTokenIndex);
