@@ -1,12 +1,12 @@
 # Stylist
 
 [![Build Status](https://img.shields.io/travis/php-stylist/Stylist.svg)](https://travis-ci.org/php-stylist/Stylist)
+[![Code Coverage](https://img.shields.io/codecov/c/github/php-stylist/Stylist.svg)](https://codecov.io/gh/php-stylist/Stylist)
 [![Downloads this Month](https://img.shields.io/packagist/dm/stylist/stylist.svg)](https://packagist.org/packages/stylist/stylist)
 [![Latest stable](https://img.shields.io/packagist/v/stylist/stylist.svg)](https://packagist.org/packages/stylist/stylist)
 
-PHP code style checker that's actually pleasant to use, configure, and even extend.
-
-Stylist combines the power of the AST with the simplicity of code tokens
+Stylist combines the power of the AST with the simplicity of code tokens to create a PHP code style checker that's
+actually pleasant to use, configure, and even extend.
 
 
 ## Usage

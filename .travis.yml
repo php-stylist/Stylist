@@ -1,0 +1,56 @@
+sudo: false
+dist: xenial
+language: php
+
+matrix:
+  include:
+    - php: 7.1
+    - php: 7.2
+    - php: 7.3
+      env: COVERAGE=on
+
+before_install:
+  - travis_retry composer self-update
+  - |
+    wget -O phive.phar https://phar.io/releases/phive.phar && \
+    wget -O phive.phar.asc https://phar.io/releases/phive.phar.asc && \
+    gpg --keyserver pool.sks-keyservers.net --recv-keys 0x9D8A98B29B2D5D79 && \
+    gpg --verify phive.phar.asc phive.phar && \
+    chmod +x phive.phar
+
+install:
+  - travis_retry composer install
+  - travis_retry ./phive.phar install
+
+before_script:
+  - composer lint
+  - composer stylist
+
+script:
+  - composer analyze
+  - composer test
+  - if [ "$COVERAGE" = "on" ]; then composer cover && bash <(curl --retry 3 -s https://codecov.io/bash); fi
+
+before_deploy:
+  - composer build
+  - echo "$ENCRYPTION_PASSPHRASE" | gpg --passphrase-fd 0 build/keys.asc.gpg
+  - gpg --batch --yes --import build/keys.asc
+  - echo "$SIGNING_KEY_PASSPHRASE" | gpg --passphrase-fd 0 --local-user B352BC4C --armor --detach-sig bin/stylist.phar
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_API_TOKEN
+  skip_cleanup: true
+  file:
+    - bin/stylist.phar
+    - bin/stylist.phar.asc
+  on:
+    tags: true
+    repo: php-stylist/Stylist
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+notifications:
+  email: false
