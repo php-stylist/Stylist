@@ -35,9 +35,9 @@ final class IgnoredIssuesTest extends TestCase
 		Assert::true($ignoredIssues->isIgnored(new Issue($file, new DummyCheck(), 'Error', 3)));
 
 		$forFile = $ignoredIssues->forFile($filePath2);
-		$forFileArray = \iterator_to_array($forFile);
-		Assert::count(1, $forFileArray);
-		Assert::same($ignoredIssueForFile, $forFileArray[0]);
+		$unmatchedArray = $forFile->listUnmatched();
+		Assert::count(1, $unmatchedArray);
+		Assert::same($ignoredIssueForFile, $unmatchedArray[0]);
 	}
 
 }

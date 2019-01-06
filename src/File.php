@@ -4,7 +4,6 @@ namespace Stylist;
 
 use PhpParser\Node;
 use Stylist\Checks\CheckInterface;
-use Stylist\IgnoredIssues\IgnoredIssue;
 use Stylist\IgnoredIssues\IgnoredIssues;
 use Stylist\IgnoredIssues\UnmatchedIgnoredIssueCheck;
 use Stylist\Tokenista\Tokens;
@@ -99,19 +98,16 @@ final class File
 		// this saves a tremendous amount of memory
 		unset($this->statements);
 
-		/** @var IgnoredIssue $ignoredIssue */
-		foreach ($this->ignoredIssues as $ignoredIssue) {
-			if ( ! $ignoredIssue->didMatch()) {
-				$this->addIssue(
-					new UnmatchedIgnoredIssueCheck(),
-					\sprintf(
-						'%s was expected to report an issue that is configured as ignored, but it did not report any. '
-						. 'Remove the issue from the \'ignoredIssues\' configuration if it no longer persists.',
-						$ignoredIssue->getCheckName()
-					),
-					$ignoredIssue->getLine()
-				);
-			}
+		foreach ($this->ignoredIssues->listUnmatched() as $unmatchedIgnoredIssue) {
+			$this->addIssue(
+				new UnmatchedIgnoredIssueCheck(),
+				\sprintf(
+					'%s was expected to report an issue that is configured as ignored, but it did not report any. '
+					. 'Remove the issue from the \'ignoredIssues\' configuration if it no longer persists.',
+					$unmatchedIgnoredIssue->getCheckName()
+				),
+				$unmatchedIgnoredIssue->getLine()
+			);
 		}
 	}
 

@@ -5,7 +5,6 @@ namespace Stylist\Tests\DI;
 use Nette\Configurator;
 use Nette\DI\Compiler;
 use Stylist\DI\IgnoredIssuesExtension;
-use Stylist\IgnoredIssues\IgnoredIssue;
 use Stylist\IgnoredIssues\IgnoredIssues;
 use Stylist\Tests\DummyCheck;
 use const Stylist\Tests\TEMP_DIR;
@@ -48,8 +47,7 @@ CONFIG
 		$ignoredIssues = $container->getByType(IgnoredIssues::class);
 		Assert::type(IgnoredIssues::class, $ignoredIssues);
 
-		/** @var IgnoredIssue[] $ignoredIssuesArray */
-		$ignoredIssuesArray = \iterator_to_array($ignoredIssues->getIterator());
+		$ignoredIssuesArray = $ignoredIssues->listUnmatched();
 		Assert::count(1, $ignoredIssuesArray);
 		Assert::same(DummyCheck::class, $ignoredIssuesArray[0]->getCheckName());
 		Assert::same(42, $ignoredIssuesArray[0]->getLine());

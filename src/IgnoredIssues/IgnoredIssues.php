@@ -6,7 +6,7 @@ use Stylist\Arrays\Arrays;
 use Stylist\Issue;
 
 
-final class IgnoredIssues implements \IteratorAggregate
+final class IgnoredIssues
 {
 
 	/** @var IgnoredIssue[] */
@@ -47,9 +47,17 @@ final class IgnoredIssues implements \IteratorAggregate
 	}
 
 
-	public function getIterator(): \Traversable
+	/**
+	 * @return IgnoredIssue[]
+	 */
+	public function listUnmatched(): array
 	{
-		return new \ArrayIterator($this->ignoredIssues);
+		return Arrays::filter(
+			$this->ignoredIssues,
+			static function (IgnoredIssue $ignoredIssue): bool {
+				return ! $ignoredIssue->didMatch();
+			}
+		);
 	}
 
 }
