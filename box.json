@@ -1,0 +1,12 @@
+{
+	"alias": "stylist.phar",
+	"compactors": [
+		"KevinGH\\Box\\Compactor\\PhpScoper"
+	],
+	"directories": [
+		"libs/Arrays/src",
+		"libs/Tokenista/src",
+		"src",
+		"vendor"
+	]
+}

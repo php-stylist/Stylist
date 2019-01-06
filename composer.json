@@ -30,8 +30,7 @@
 	"require-dev": {
 		"jakub-onderka/php-parallel-lint": "^1.0.0",
 		"mockery/mockery": "^1.2.0",
-		"nette/tester": "^2.1.0",
-		"phpstan/phpstan-shim": "^0.10.0"
+		"nette/tester": "^2.1.0"
 	},
 	"suggest": {
 		"ext-xml": "to use XML output in PHPCS-compatible format"
@@ -39,10 +38,11 @@
 	"bin": ["bin/stylist"],
 	"scripts": {
 		"lint": "parallel-lint -e php,phpt src/ tests/ libs/",
-		"analyze": "phpstan.phar analyze -l max -c phpstan.neon src/ libs/Arrays/src/ libs/Tokenista/src/",
+		"analyze": "./tools/phpstan analyze -l max -c phpstan.neon src/ libs/Arrays/src/ libs/Tokenista/src/",
 		"test": "tester -c tests/php.ini -s tests/ libs/Tokenista/tests/ libs/Arrays/tests/",
 		"cover":  "tester -p phpdbg -c tests/php.ini -s --coverage coverage.xml --coverage-src src/ --coverage-src libs/Tokenista/src/ --coverage-src libs/Arrays/src/ tests/ libs/Tokenista/tests/ libs/Arrays/tests/",
-		"stylist": "./bin/stylist check --temp temp/ -- src/ tests/ libs/"
+		"stylist": "./bin/stylist check --temp temp/ -- src/ tests/ libs/",
+		"build": "./tools/box compile"
 	},
 	"autoload": {
 		"psr-4": {
@@ -57,5 +57,8 @@
 			"Stylist\\Tokenista\\Tests\\": "libs/Tokenista/tests/",
 			"Stylist\\Arrays\\Tests\\": "libs/Arrays/tests/"
 		}
+	},
+	"config": {
+		"sort-packages": true
 	}
 }

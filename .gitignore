@@ -1,5 +1,7 @@
 .idea/
+bin/stylist.phar
 temp/
 vendor/
+tools/
 composer.lock
 coverage.xml
