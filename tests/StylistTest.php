@@ -147,7 +147,7 @@ final class StylistTest extends TestCase
 		$result = $stylist
 			->accept(['*.phps'])
 			->exclude(['*excluded*'])
-			->onlyCheck()
+			->dryRun()
 			->check([__DIR__ . '/dummy']);
 
 		Assert::false($result->isSuccess());

@@ -16,7 +16,7 @@ final class Stylist
 	private $checks;
 
 	/** @var bool */
-	private $onlyCheck = false;
+	private $dryRun = false;
 
 	/** @var OutputInterface */
 	private $output;
@@ -68,9 +68,9 @@ final class Stylist
 	}
 
 
-	public function onlyCheck(bool $onlyCheck = true): self
+	public function dryRun(bool $dryRun = true): self
 	{
-		$this->onlyCheck = $onlyCheck;
+		$this->dryRun = $dryRun;
 		return $this;
 	}
 
@@ -156,7 +156,7 @@ final class Stylist
 
 	private function fixFile(File $file): void
 	{
-		if ($this->onlyCheck) {
+		if ($this->dryRun) {
 			return;
 		}
 
