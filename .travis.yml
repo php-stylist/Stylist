@@ -2,14 +2,9 @@ sudo: false
 dist: xenial
 language: php
 
-matrix:
-  include:
-    - php: 7.1
-    - php: 7.2
-    - php: 7.3
-      env: COVERAGE=on
 
 before_install:
+  - if php --ri xdebug >/dev/null; then phpenv config-rm xdebug.ini; fi
   - travis_retry composer self-update
   - |
     wget -O phive.phar https://phar.io/releases/phive.phar && \
@@ -19,34 +14,61 @@ before_install:
     chmod +x phive.phar
 
 install:
-  - travis_retry composer install
-  - travis_retry ./phive.phar install
+  - travis_retry composer install --no-interaction
+  - travis_retry ./phive.phar install --no-interaction --force-accept-unsigned --trust-gpg-keys 8E730BA25823D8B5
 
-before_script:
-  - composer lint
-  - composer stylist
 
-script:
-  - composer analyze
-  - composer test
-  - if [ "$COVERAGE" = "on" ]; then composer cover && bash <(curl --retry 3 -s https://codecov.io/bash); fi
+php:
+  - 7.1
+  - 7.2
+  - 7.3
 
-before_deploy:
-  - composer build
-  - echo "$ENCRYPTION_PASSPHRASE" | gpg --passphrase-fd 0 build/keys.asc.gpg
-  - gpg --batch --yes --import build/keys.asc
-  - echo "$SIGNING_KEY_PASSPHRASE" | gpg --passphrase-fd 0 --local-user B352BC4C --armor --detach-sig bin/stylist.phar
+script: composer test
 
-deploy:
-  provider: releases
-  api_key: $GITHUB_API_TOKEN
-  skip_cleanup: true
-  file:
-    - bin/stylist.phar
-    - bin/stylist.phar.asc
-  on:
-    tags: true
-    repo: php-stylist/Stylist
+
+jobs:
+  include:
+    - stage: QA
+      name: Code Coverage
+      php: 7.3
+      script: composer cover
+      after_success: bash <(curl --retry 3 -s https://codecov.io/bash)
+
+    - stage: QA
+      name: Lint
+      php: 7.3
+      script: composer lint
+
+    - stage: QA
+      name: Static Analysis
+      php: 7.3
+      script: composer analyze
+
+    - stage: QA
+      name: Code Style
+      php: 7.3
+      script: composer stylist
+
+    - stage: Deploy
+      name: Deploy
+      php: 7.3
+      script: composer build
+
+      before_deploy:
+        - echo "$ENCRYPTION_PASSPHRASE" | gpg --passphrase-fd 0 build/keys.asc.gpg
+        - gpg --batch --yes --import build/keys.asc
+        - echo "$SIGNING_KEY_PASSPHRASE" | gpg --passphrase-fd 0 --local-user B352BC4C --armor --detach-sig bin/stylist.phar
+
+      deploy:
+        provider: releases
+        api_key: $GITHUB_API_TOKEN
+        skip_cleanup: true
+        file:
+          - bin/stylist.phar
+          - bin/stylist.phar.asc
+        on:
+          tags: true
+          repo: php-stylist/Stylist
 
 cache:
   directories:
