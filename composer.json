@@ -41,7 +41,8 @@
 		"analyze": "./tools/phpstan analyze -l max -c phpstan.neon src/ libs/Arrays/src/ libs/Tokenista/src/",
 		"test": "tester -c tests/php.ini -s tests/ libs/Tokenista/tests/ libs/Arrays/tests/",
 		"cover":  "tester -p phpdbg -c tests/php.ini -s --coverage coverage.xml --coverage-src src/ --coverage-src libs/Tokenista/src/ --coverage-src libs/Arrays/src/ tests/ libs/Tokenista/tests/ libs/Arrays/tests/",
-		"stylist": "./bin/stylist check --temp temp/ -- src/ tests/ libs/",
+		"deptrac": "./tools/deptrac analyze",
+		"stylist": "./bin/stylist check --temp temp/ --exclude temp -- src/ tests/ libs/",
 		"build": "./tools/box compile"
 	},
 	"autoload": {

@@ -3,5 +3,6 @@ bin/stylist.phar
 temp/
 vendor/
 tools/
+.deptrac.cache
 composer.lock
 coverage.xml

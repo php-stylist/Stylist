@@ -2,4 +2,5 @@
 <phive xmlns="https://phar.io/phive">
   <phar name="humbug/box" version="^3.4.0" installed="3.4.0" location="./tools/box" copy="false"/>
   <phar name="phpstan/phpstan" version="^0.10.7" installed="0.10.7" location="./tools/phpstan" copy="false"/>
+  <phar name="sensiolabs-de/deptrac" version="^0.4.0" installed="0.4.0" location="./tools/deptrac" copy="false"/>
 </phive>

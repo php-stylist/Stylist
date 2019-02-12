@@ -1,0 +1,56 @@
+paths:
+  - ./src
+  - ./tests
+  - ./libs
+
+layers:
+  - name: Stylist
+    collectors:
+      - type: className
+        regex: Stylist\\(?!Tests\\|Arrays\\|Tokenista\\).*
+
+  - name: Stylist.Tests
+    collectors:
+      - type: className
+        regex: Stylist\\Tests\\.*
+
+  - name: Libs.Arrays
+    collectors:
+      - type: className
+        regex: Stylist\\Arrays\\(?!Tests\\).*
+
+  - name: Libs.Arrays.Tests
+    collectors:
+      - type: className
+        regex: Stylist\\Arrays\\Tests\\.*
+
+  - name: Libs.Tokenista
+    collectors:
+      - type: className
+        regex: Stylist\\Tokenista\\(?!Tests\\).*
+
+  - name: Libs.Tokenista.Tests
+    collectors:
+      - type: className
+        regex: Stylist\\Tokenista\\Tests\\.*
+
+ruleset:
+  Stylist:
+    - Libs.Tokenista
+    - Libs.Arrays
+
+  Stylist.Tests:
+    - Stylist
+    - Libs.Tokenista
+    - Libs.Arrays
+
+  Libs.Arrays: ~
+
+  Libs.Arrays.Tests:
+    - Libs.Arrays
+
+  Libs.Tokenista:
+    - Libs.Arrays
+
+  Libs.Tokenista.Tests:
+    - Libs.Tokenista
