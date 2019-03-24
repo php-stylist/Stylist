@@ -160,11 +160,11 @@ final class CheckCommandTest extends TestCase
 	}
 
 
-	public function testOnlyCheck(): void
+	public function testDryRun(): void
 	{
 		$input = [
 			'--config' => __DIR__ . '/../stylist.neon',
-			'--only-check' => true,
+			'--dry-run' => true,
 			'paths' => [__DIR__ . '/../dummy'],
 		];
 
@@ -217,7 +217,7 @@ final class CheckCommandTest extends TestCase
 	private function mockStylist(
 		array $expectedAccepted,
 		array $expectedExcluded,
-		bool $expectedOnlyCheck,
+		bool $expectedDryRun,
 		array $expectedPaths,
 		bool $success
 	): Stylist
@@ -225,7 +225,7 @@ final class CheckCommandTest extends TestCase
 		$stylistMock = \Mockery::mock(Stylist::class);
 		$stylistMock->shouldReceive('accept')->with($expectedAccepted)->once()->andReturnSelf();
 		$stylistMock->shouldReceive('exclude')->with($expectedExcluded)->once()->andReturnSelf();
-		$stylistMock->shouldReceive('onlyCheck')->with($expectedOnlyCheck)->once()->andReturnSelf();
+		$stylistMock->shouldReceive('dryRun')->with($expectedDryRun)->once()->andReturnSelf();
 		$stylistMock->shouldReceive('check')
 			->once()
 			->with($expectedPaths)
