@@ -36,15 +36,21 @@ final class ChecksExtensionTest extends TestCase
 		$configurator->addConfig(FileMock::create(<<<CONFIG
 checks:
 	- Stylist\Tests\DummyCheck
+	- Stylist\Tests\DummyCheck(dummyArgument)
 CONFIG
 		, 'neon'));
 
 		$container = $configurator->createContainer();
 		$checks = $container->findByType(CheckInterface::class);
-		Assert::count(1, $checks);
+		Assert::count(2, $checks);
 
-		$checkInstance = $container->getService($checks[0]);
-		Assert::type(DummyCheck::class, $checkInstance);
+		$checkInstance1 = $container->getService($checks[0]);
+		Assert::type(DummyCheck::class, $checkInstance1);
+		Assert::null($checkInstance1->constructorParameter);
+
+		$checkInstance2 = $container->getService($checks[1]);
+		Assert::type(DummyCheck::class, $checkInstance2);
+		Assert::same('dummyArgument', $checkInstance2->constructorParameter);
 	}
 
 }

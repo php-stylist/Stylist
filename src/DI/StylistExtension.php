@@ -62,6 +62,7 @@ final class StylistExtension extends CompilerExtension
 		$containerBuilder->addImportedDefinition($this->prefix('output'))
 			->setType(OutputInterface::class);
 
+		$this->compiler->addExportedType(Stylist::class);
 		$containerBuilder->addDefinition($this->prefix('stylist'))
 			->setFactory(Stylist::class);
 	}

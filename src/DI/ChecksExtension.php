@@ -14,7 +14,7 @@ final class ChecksExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$counter = 1;
-		foreach ($this->getConfig() as $check) {
+		foreach ((array) $this->getConfig() as $check) {
 			$builder->addDefinition($this->prefix((string) $counter++))
 				->setType(CheckInterface::class)
 				->setFactory($check);

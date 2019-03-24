@@ -3,6 +3,8 @@
 namespace Stylist\DI;
 
 use Nette\DI\CompilerExtension;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 use Stylist\IgnoredIssues\IgnoredIssue;
 use Stylist\IgnoredIssues\IgnoredIssues;
 
@@ -13,11 +15,11 @@ final class IgnoredIssuesExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$ignoredIssues = [];
-		foreach ($this->getConfig() as $ignoredIssue) {
+		foreach ((array) $this->getConfig() as $ignoredIssue) {
 			$ignoredIssues[] = new IgnoredIssue(
-				$ignoredIssue['check'],
-				$ignoredIssue['file'],
-				$ignoredIssue['line']
+				$ignoredIssue->check,
+				$ignoredIssue->file,
+				$ignoredIssue->line
 			);
 		}
 
@@ -25,6 +27,18 @@ final class IgnoredIssuesExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('ignoredIssues'))
 			->setType(IgnoredIssues::class)
 			->setFactory(IgnoredIssues::class, [$ignoredIssues]);
+	}
+
+
+	public function getConfigSchema(): Schema
+	{
+		return Expect::listOf(
+			Expect::structure([
+				'check' => Expect::type('class')->required(),
+				'file' => Expect::string()->required(),
+				'line' => Expect::int()->required(),
+			])
+		);
 	}
 
 }

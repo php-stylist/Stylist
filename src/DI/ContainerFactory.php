@@ -4,6 +4,7 @@ namespace Stylist\DI;
 
 use Nette\Configurator;
 use Nette\DI\Container;
+use Nette\DI\Extensions\DIExtension;
 use Nette\DI\Extensions\ExtensionsExtension;
 use Nette\DI\Extensions\PhpExtension;
 use Stylist\Output\OutputInterface;
@@ -31,6 +32,7 @@ final class ContainerFactory
 		$configurator = new Configurator();
 		$configurator->defaultExtensions = [
 			'php' => PhpExtension::class,
+			'di' => DIExtension::class,
 			'extensions' => ExtensionsExtension::class,
 			'stylist' => StylistExtension::class,
 			'checks' => ChecksExtension::class,
@@ -39,6 +41,16 @@ final class ContainerFactory
 
 		$configurator->setDebugMode(true);
 		$configurator->setTempDirectory($tempDirectory ?? \sys_get_temp_dir());
+		$configurator->addConfig([
+			'di' => [
+				'export' => [
+					'parameters' => false,
+					'tags' => false,
+					'types' => false,
+				],
+			],
+		]);
+
 		$configurator->addConfig($projectConfigFile);
 
 		$configurator->addServices([

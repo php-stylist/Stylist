@@ -16,13 +16,14 @@
 	},
 	"require": {
 		"php": "^7.1.0",
+		"ext-tokenizer": "*",
 		"composer/xdebug-handler": "^1.3.0",
 		"jean85/pretty-package-versions": "^1.0.0",
-		"nette/bootstrap": "dev-master",
-		"nette/di": "dev-master",
-		"nette/finder":  "dev-master",
-		"nette/neon": "dev-master",
-		"nette/utils": "dev-master",
+		"nette/bootstrap": "^3.0.0",
+		"nette/di": "^3.0.0",
+		"nette/finder":  "^2.5.0",
+		"nette/neon": "^3.0.0",
+		"nette/utils": "^3.0.0",
 		"nikic/php-parser": "^4.1.0",
 		"symfony/console": "^4.2.0",
 		"webmozart/path-util": "^2.3.0"
@@ -33,7 +34,8 @@
 		"nette/tester": "^2.1.0"
 	},
 	"suggest": {
-		"ext-xml": "to use XML output in PHPCS-compatible format"
+		"ext-dom": "to use XML output in PHPCS-compatible format",
+		"ext-SimpleXML": "to use XML output in PHPCS-compatible format"
 	},
 	"bin": ["bin/stylist"],
 	"scripts": {

@@ -11,6 +11,16 @@ use Stylist\Tokenista\Query;
 final class DummyCheck implements CheckInterface
 {
 
+	/** @var ?string */
+	public $constructorParameter;
+
+
+	public function __construct(?string $constructorParameter = null)
+	{
+		$this->constructorParameter = $constructorParameter;
+	}
+
+
 	public function check(File $file): void
 	{
 		$tokens = $file->getTokens();
