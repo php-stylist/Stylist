@@ -1,4 +1,4 @@
-# Stylist
+# Stylist
 
 [![Build Status](https://img.shields.io/travis/php-stylist/Stylist.svg)](https://travis-ci.org/php-stylist/Stylist)
 [![Code Coverage](https://img.shields.io/codecov/c/github/php-stylist/Stylist.svg)](https://codecov.io/gh/php-stylist/Stylist)
