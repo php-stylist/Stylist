@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Stylist\Checks\Arrays;
+namespace Stylist\Checks\Arrays\Syntax;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitor;

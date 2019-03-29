@@ -1,12 +1,12 @@
 <?php declare(strict_types = 1);
 
-namespace Stylist\Tests\Checks\Arrays;
+namespace Stylist\Tests\Checks\Arrays\Syntax;
 
-use Stylist\Checks\Arrays\ShortArraySyntaxCheck;
+use Stylist\Checks\Arrays\Syntax\ShortArraySyntaxCheck;
 use Stylist\Tests\Checks\CheckTestCase;
 
 
-require_once __DIR__ . '/../../bootstrap.php';
+require_once __DIR__ . '/../../../bootstrap.php';
 
 
 /**

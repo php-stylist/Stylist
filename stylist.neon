@@ -1,2 +1,2 @@
 checks:
-	- Stylist\Checks\Arrays\ShortArraySyntaxCheck
+	- Stylist\Checks\Arrays\Syntax\ShortArraySyntaxCheck

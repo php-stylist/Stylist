@@ -21,7 +21,7 @@ actually pleasant to use, configure, and even extend.
 
 	```yaml
 	checks:
-	    - Stylist\Checks\Arrays\ShortArraySyntaxCheck
+	    - Stylist\Checks\Arrays\Syntax\ShortArraySyntaxCheck
 	```
 
 3. Run
