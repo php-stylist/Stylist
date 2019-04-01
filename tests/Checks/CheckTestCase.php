@@ -54,9 +54,7 @@ abstract class CheckTestCase extends TestCase
 		$file = $this->checkFile($check, $fileName);
 		Assert::same(\count($expectedIssues), $file->countIssues());
 
-		foreach ($expectedIssues as $index => $expectedIssue) {
-			[$expectedLine, $expectedMessage] = $expectedIssue;
-
+		foreach ($expectedIssues as $index => [$expectedLine, $expectedMessage]) {
 			$issue = $file->getIssues()[$index];
 			Assert::type($check, $issue->getCheck());
 			Assert::same($expectedLine, $issue->getLine());
