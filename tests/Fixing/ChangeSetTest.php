@@ -27,7 +27,10 @@ final class ChangeSetTest extends TestCase
 		\assert($exit !== null);
 
 		$changeSet = new ChangeSet();
+		Assert::false($changeSet->hasChanges());
+
 		$changeSet->replaceToken($exit, 'die');
+		Assert::true($changeSet->hasChanges());
 
 		$newTokens = $changeSet->apply($tokens);
 		Assert::same('<?php die(42);', $newTokens->assemble());

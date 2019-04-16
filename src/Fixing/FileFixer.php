@@ -26,10 +26,13 @@ final class FileFixer
 			}
 		}
 
-		$tokens = $file->getTokens();
-		$newTokens = $changeSet->apply($tokens);
+		if ($changeSet->hasChanges()) {
+			$tokens = $file->getTokens();
+			$newTokens = $changeSet->apply($tokens);
 
-		$this->writeFile($file, $newTokens);
+			$this->writeFile($file, $newTokens);
+		}
+
 		return $success;
 	}
 

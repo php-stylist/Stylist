@@ -59,6 +59,16 @@ final class ChangeSet
 
 
 	/**
+	 * @internal
+	 */
+	public function hasChanges(): bool
+	{
+		return \count($this->changes) > 0;
+	}
+
+
+	/**
+	 * @internal
 	 * @throws ConflictingChangesException
 	 */
 	public function merge(ChangeSet $changeSet): void
@@ -78,6 +88,9 @@ final class ChangeSet
 	}
 
 
+	/**
+	 * @internal
+	 */
 	public function apply(Tokens $tokens): Tokens
 	{
 		foreach ($this->changes as $change) {

@@ -108,6 +108,32 @@ final class FileFixerTest extends TestCase
 		);
 	}
 
+
+	public function testEmptyChangeSet(): void
+	{
+		$code = '<?php exit(42);';
+		$tokens = Tokens::from($code);
+
+		$fileMock = FileMock::create($code, 'php');
+		$file = new File(
+			new \SplFileInfo($fileMock),
+			$tokens,
+			[],
+			new IgnoredIssues([])
+		);
+
+		$file->addIssue(new DummyCheck(), '', 1); // no fixer
+
+		$fixer = new FileFixer();
+		$success = $fixer->fixIssues($file);
+		Assert::true($success);
+		Assert::null($file->getIssues()[0]->getFix());
+		Assert::same(
+			'<?php exit(42);',
+			\file_get_contents($fileMock)
+		);
+	}
+
 }
 
 
