@@ -2,5 +2,6 @@ checks:
 	- Stylist\Checks\Arrays\Syntax\ArrayDestructuringSyntaxCheck::short()
 	- Stylist\Checks\Arrays\Syntax\ShortArraySyntaxCheck
 
+	- Stylist\Checks\Files\Formatting\EndOfFileNewlineCheck
 	- Stylist\Checks\Files\Whitespace\IndentationCheck::tabs()
 	- Stylist\Checks\Files\Whitespace\NoTrailingWhitespaceCheck
