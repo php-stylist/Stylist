@@ -3,3 +3,4 @@ checks:
 	- Stylist\Checks\Arrays\Syntax\ShortArraySyntaxCheck
 
 	- Stylist\Checks\Files\Whitespace\IndentationCheck::tabs()
+	- Stylist\Checks\Files\Whitespace\NoTrailingWhitespaceCheck
