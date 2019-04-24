@@ -3,6 +3,7 @@
 namespace Stylist\DI;
 
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\Statement;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
 use Stylist\IgnoredIssues\IgnoredIssue;
@@ -16,10 +17,13 @@ final class IgnoredIssuesExtension extends CompilerExtension
 	{
 		$ignoredIssues = [];
 		foreach ((array) $this->getConfig() as $ignoredIssue) {
-			$ignoredIssues[] = new IgnoredIssue(
-				$ignoredIssue->check,
-				$ignoredIssue->file,
-				$ignoredIssue->line
+			$ignoredIssues[] = new Statement(
+				IgnoredIssue::class,
+				[
+					'checkName' => $ignoredIssue->check,
+					'file' => $ignoredIssue->file,
+					'line' => $ignoredIssue->line,
+				]
 			);
 		}
 
@@ -35,7 +39,7 @@ final class IgnoredIssuesExtension extends CompilerExtension
 		return Expect::listOf(
 			Expect::structure([
 				'check' => Expect::type('class')->required(),
-				'file' => Expect::string()->required(),
+				'file' => Expect::string()->required()->dynamic(),
 				'line' => Expect::int()->required(),
 			])
 		);

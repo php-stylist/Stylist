@@ -33,7 +33,7 @@ final class IgnoredIssuesExtensionTest extends TestCase
 			$compiler->addExtension('ignoredIssues', new IgnoredIssuesExtension());
 		};
 
-		$configurator->addParameters(['workingDirectory' => __DIR__]);
+		$configurator->addDynamicParameters(['workingDirectory' => __DIR__]);
 		$configurator->addConfig(FileMock::create(<<<CONFIG
 ignoredIssues:
 	-
