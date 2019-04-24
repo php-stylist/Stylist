@@ -15,7 +15,7 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction
-  - travis_retry ./phive.phar install --no-interaction --force-accept-unsigned --trust-gpg-keys 8E730BA25823D8B5
+  - travis_retry ./phive.phar install --force-accept-unsigned --trust-gpg-keys 8E730BA25823D8B5
 
 
 php:
