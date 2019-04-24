@@ -8,3 +8,4 @@ checks:
 
 	- Stylist\Checks\PHP\Formatting\KeywordsLowerCaseCheck
 	- Stylist\Checks\PHP\Formatting\TrueFalseNullCaseCheck::lower()
+	- Stylist\Checks\PHP\Language\NoShortOpenTagCheck
