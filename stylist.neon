@@ -5,3 +5,5 @@ checks:
 	- Stylist\Checks\Files\Formatting\EndOfFileNewlineCheck
 	- Stylist\Checks\Files\Whitespace\IndentationCheck::tabs()
 	- Stylist\Checks\Files\Whitespace\NoTrailingWhitespaceCheck
+
+	- Stylist\Checks\PHP\Formatting\KeywordsLowerCaseCheck
