@@ -7,3 +7,4 @@ checks:
 	- Stylist\Checks\Files\Whitespace\NoTrailingWhitespaceCheck
 
 	- Stylist\Checks\PHP\Formatting\KeywordsLowerCaseCheck
+	- Stylist\Checks\PHP\Formatting\TrueFalseNullCaseCheck::lower()
