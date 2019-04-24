@@ -3,6 +3,7 @@ checks:
 	- Stylist\Checks\Arrays\Syntax\ShortArraySyntaxCheck
 
 	- Stylist\Checks\Files\Formatting\EndOfFileNewlineCheck
+	- Stylist\Checks\Files\Language\NoCloseTagCheck
 	- Stylist\Checks\Files\Language\PhpOnlyCheck
 	- Stylist\Checks\Files\Whitespace\IndentationCheck::tabs()
 	- Stylist\Checks\Files\Whitespace\NoTrailingWhitespaceCheck
