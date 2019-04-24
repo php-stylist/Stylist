@@ -3,6 +3,7 @@ checks:
 	- Stylist\Checks\Arrays\Syntax\ShortArraySyntaxCheck
 
 	- Stylist\Checks\Files\Formatting\EndOfFileNewlineCheck
+	- Stylist\Checks\Files\Formatting\LineLengthCheck(120)
 	- Stylist\Checks\Files\Language\NoCloseTagCheck
 	- Stylist\Checks\Files\Language\PhpOnlyCheck
 	- Stylist\Checks\Files\Whitespace\IndentationCheck::tabs()
@@ -11,3 +12,15 @@ checks:
 	- Stylist\Checks\PHP\Formatting\KeywordsLowerCaseCheck
 	- Stylist\Checks\PHP\Formatting\TrueFalseNullCaseCheck::lower()
 	- Stylist\Checks\PHP\Language\NoShortOpenTagCheck
+
+
+ignoredIssues:
+	-
+		check: Stylist\Checks\Files\Formatting\LineLengthCheck
+		file: %workingDirectory%/tests/bootstrap.php
+		line: 15
+
+	-
+		check: Stylist\Checks\Files\Formatting\LineLengthCheck
+		file: %workingDirectory%/src/Console/CheckCommand.php
+		line: 54
