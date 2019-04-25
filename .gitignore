@@ -1,8 +1,8 @@
-.idea/
-bin/stylist.phar
-temp/
-vendor/
-tools/
-.deptrac.cache
-composer.lock
-coverage.xml
+/.idea/
+/bin/stylist.phar
+/temp/
+/vendor/
+/tools/
+/.deptrac.cache
+/composer.lock
+/coverage.xml

@@ -1,2 +1,2 @@
-**/output/*.actual
-**/output/*.expected
+/**/output/*.actual
+/**/output/*.expected
