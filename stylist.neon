@@ -18,7 +18,7 @@ ignoredIssues:
 	-
 		check: Stylist\Checks\Files\Formatting\LineLengthCheck
 		file: %workingDirectory%/tests/bootstrap.php
-		line: 15
+		line: 14
 
 	-
 		check: Stylist\Checks\Files\Formatting\LineLengthCheck
