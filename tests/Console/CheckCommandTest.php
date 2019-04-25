@@ -10,6 +10,7 @@ use Stylist\Output\OutputChain;
 use Stylist\Stylist;
 use Symfony\Component\Console\Tester\CommandTester;
 use Tester\Assert;
+use Tester\Environment;
 use Tester\TestCase;
 use Webmozart\PathUtil\Path;
 
@@ -276,4 +277,5 @@ final class CheckCommandTest extends TestCase
 }
 
 
+Environment::bypassFinals();
 (new CheckCommandTest())->run();

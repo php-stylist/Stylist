@@ -9,7 +9,6 @@ use Tester\Helpers;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 Environment::setup();
-Environment::bypassFinals();
 \date_default_timezone_set('UTC');
 
 \define('Stylist\\Tests\\TEMP_DIR', __DIR__ . '/temp/' . (isset($_SERVER['argv']) ? \md5(\serialize($_SERVER['argv'])) : \getmypid()));
