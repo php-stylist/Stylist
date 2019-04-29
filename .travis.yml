@@ -78,6 +78,7 @@ jobs:
 cache:
   directories:
     - $HOME/.composer/cache
+    - $HOME/.phive
 
 notifications:
   email: false
