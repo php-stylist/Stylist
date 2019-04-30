@@ -4,14 +4,14 @@ namespace Stylist\Checks\Arrays\Syntax;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitor;
-use Stylist\Checks\AbstractCheck;
+use Stylist\Checks\AstBasedCheck;
 use Stylist\Checks\CallableVisitor;
 use Stylist\File;
 use Stylist\Fixing\ChangeSet;
 use Stylist\Tokenista\Query;
 
 
-final class ShortArraySyntaxCheck extends AbstractCheck
+final class ShortArraySyntaxCheck extends AstBasedCheck
 {
 
 	protected function createVisitor(File $file): NodeVisitor

@@ -2,15 +2,13 @@
 
 namespace Stylist\Checks;
 
-use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
 use PhpParser\NodeVisitor\NameResolver;
-use PhpParser\NodeVisitorAbstract;
 use Stylist\File;
 
 
-abstract class AbstractCheck implements CheckInterface
+abstract class AstBasedCheck implements CheckInterface
 {
 
 	public function check(File $file): void

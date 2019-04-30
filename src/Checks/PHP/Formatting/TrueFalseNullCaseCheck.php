@@ -4,13 +4,13 @@ namespace Stylist\Checks\PHP\Formatting;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitor;
-use Stylist\Checks\AbstractCheck;
+use Stylist\Checks\AstBasedCheck;
 use Stylist\Checks\CallableVisitor;
 use Stylist\File;
 use Stylist\Fixing\ChangeSet;
 
 
-final class TrueFalseNullCaseCheck extends AbstractCheck
+final class TrueFalseNullCaseCheck extends AstBasedCheck
 {
 
 	private const LOWER = 'lower';

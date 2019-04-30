@@ -4,7 +4,7 @@ namespace Stylist\Checks\Arrays\Syntax;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitor;
-use Stylist\Checks\AbstractCheck;
+use Stylist\Checks\AstBasedCheck;
 use Stylist\Checks\CallableVisitor;
 use Stylist\File;
 use Stylist\Fixing\ChangeSet;
@@ -14,7 +14,7 @@ use Stylist\Tokenista\Query;
 /**
  * Checks that array destructuring expressions follow given syntax.
  */
-final class ArrayDestructuringSyntaxCheck extends AbstractCheck
+final class ArrayDestructuringSyntaxCheck extends AstBasedCheck
 {
 
 	public const SHORT = 'short';

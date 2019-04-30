@@ -9,8 +9,8 @@ use Symfony\Component\Console\Application;
 
 
 $autoloadPaths = [
-	__DIR__ . '/../vendor/autoload.php', // local dev repo
-	__DIR__ . '/../../../autoload.php', // installed as a dependency
+	__DIR__ . '/../vendor/autoload.php', // local dev repo / built phar
+	__DIR__ . '/../../../autoload.php', // installed as a composer dependency
 ];
 
 $autoloadFound = false;
