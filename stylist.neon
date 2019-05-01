@@ -9,6 +9,7 @@ checks:
 	- Stylist\Checks\Files\Formatting\LineLengthCheck(120)
 	- Stylist\Checks\Files\Language\NoCloseTagCheck
 	- Stylist\Checks\Files\Language\PhpOnlyCheck
+	- Stylist\Checks\Files\Organization\SingleClassTypePerFileCheck
 	- Stylist\Checks\Files\Whitespace\IndentationCheck::tabs()
 	- Stylist\Checks\Files\Whitespace\NoTrailingWhitespaceCheck
 
