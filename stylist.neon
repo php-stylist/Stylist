@@ -2,6 +2,7 @@ checks:
 	- Stylist\Checks\Arrays\Syntax\ArrayDestructuringSyntaxCheck::short()
 	- Stylist\Checks\Arrays\Syntax\ShortArraySyntaxCheck
 
+	- Stylist\Checks\Classes\NamingConventions\ClassTypeNamingConventionCheck
 	- Stylist\Checks\Classes\Syntax\ClassInstantiationParenthesesCheck::enforce()
 
 	- Stylist\Checks\Files\Formatting\EndOfFileNewlineCheck
