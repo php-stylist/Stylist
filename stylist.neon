@@ -2,6 +2,8 @@ checks:
 	- Stylist\Checks\Arrays\Syntax\ArrayDestructuringSyntaxCheck::short()
 	- Stylist\Checks\Arrays\Syntax\ShortArraySyntaxCheck
 
+	- Stylist\Checks\Classes\Syntax\ClassInstantiationParenthesesCheck::enforce()
+
 	- Stylist\Checks\Files\Formatting\EndOfFileNewlineCheck
 	- Stylist\Checks\Files\Formatting\LineLengthCheck(120)
 	- Stylist\Checks\Files\Language\NoCloseTagCheck
